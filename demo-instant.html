@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Home - Swoosh demo: Fading</title>
+	<style>
+
+	/*
+	 * Just for a lil more pleasent for the eyes.
+	 *
+	 * This is not important.
+	 */
+
+	html {
+		overflow-y: scroll;
+	}
+
+	html, body {
+		min-height: 100%;
+		margin: 0;
+		padding: 0;
+	}
+
+	body {
+		background: lightblue;
+	}
+
+	#container {
+		width: 80%;
+		max-width: 600px;
+		margin: 0 auto;
+		padding: 40px;
+		font-family: sans-serif;
+	}
+
+	a {
+		color: blue;
+		text-decoration: none;
+	}
+
+	a:hover {
+		color: red;
+	}
+	
+	#nav ul {
+		margin: 20px 0 20px -10px;
+		padding: 0;
+		list-style: none;
+	}
+	
+	#nav li {
+		display: inline-block;
+	}
+
+	#nav li a {
+		padding: 5px 10px;
+		font-size: 0.75rem;
+		font-weight: bold;
+		text-transform: uppercase;
+		letter-spacing: 2px;
+	}
+
+	p {
+		line-height: 1.5;
+	}
+	</style>
+</head>
+<body>
+	<div id="container">
+		<header>
+			<nav id="nav">
+				<ul>
+					<li><a href="demo-instant.html">Home</a></li>
+					<li><a href="page-about.html">About</a></li>
+				</ul>
+			</nav>
+		</header>
+
+		<div id="main">
+
+			<div id="content" data-page="home">
+				<h1>Instant content switch</h1>
+
+				<p>As humans have a prior right to existence over dogs by virtue of being more highly evolved and having a superior consciousness, so women have a prior right to existence over men. The elimination of any male is, therefore, a righteous and good act, an act highly beneficial to women as well as an act of mercy.</p>
+			</div>
+		</div>
+	</div>
+
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+	<script src="lib/history.js"></script>
+	<script src="lib/history.adapter.jquery.js"></script>
+	<script src="jquery.swoosh.js"></script>
+	<script>
+	(function($) {
+
+		// Initializer
+		function init() {
+
+			// Initialize swoosh
+			$.swoosh({
+				fadeContentSwitch: false
+			});
+
+			// Hook up to when Swoosh has fetched and replaced content
+			$(document).on('swoosh/didreplace', function(e, info) {
+
+				// Get the name of the page that was fetched (provided by the
+				// data-page or attribute on your content element).
+				var loadedPage = info.pageName;
+
+				// Do stuff depending on the page
+				if ('about' == loadedPage) {
+					initAbout();
+				}
+				else {
+					initRegular();
+				}
+			});
+		}
+
+		// Do regular stuff. Perhaps re-parsing share buttons?
+		function initRegular() {
+			$('body').css('background-color', 'lightblue');
+		}
+
+		// Do something truly unique.
+		function initAbout() {
+			$('body').css('background-color', 'yellow');
+		}
+
+		// Go
+		init();
+
+	})(jQuery);
+	</script>
+</body>
+</html>

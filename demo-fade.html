@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Home - Swoosh demo: Fading</title>
+	<style>
+
+	/*
+	 * Just for a lil more pleasent for the eyes.
+	 *
+	 * This is not important.
+	 */
+
+	html {
+		overflow-y: scroll;
+	}
+
+	html, body {
+		min-height: 100%;
+		margin: 0;
+		padding: 0;
+	}
+
+	body {
+		background: lightblue;
+	}
+
+	#container {
+		width: 80%;
+		max-width: 600px;
+		margin: 0 auto;
+		padding: 40px;
+		font-family: sans-serif;
+	}
+
+	a {
+		color: blue;
+		text-decoration: none;
+	}
+
+	a:hover {
+		color: red;
+	}
+	
+	#nav ul {
+		margin: 20px 0 20px -10px;
+		padding: 0;
+		list-style: none;
+	}
+	
+	#nav li {
+		display: inline-block;
+	}
+
+	#nav li a {
+		padding: 5px 10px;
+		font-size: 0.75rem;
+		font-weight: bold;
+		text-transform: uppercase;
+		letter-spacing: 2px;
+	}
+
+	p {
+		line-height: 1.5;
+	}
+	</style>
+</head>
+<body>
+	<div id="container">
+		<header>
+			<nav id="nav">
+				<ul>
+					<li><a href="demo-fade.html">Home</a></li>
+					<li><a href="page-about.html">About</a></li>
+				</ul>
+			</nav>
+		</header>
+
+		<div id="main">
+
+			<div id="content" data-page="home">
+				<h1>Fading of content</h1>
+
+				<p>Veniam et tattooed, vegan four loko fap street art Pitchfork magna. Slow-carb keffiyeh pickled vero. Vinyl +1 sint, cred American Apparel cliche McSweeney's twee bicycle rights. Mumblecore esse mlkshk, four loko selvage gentrify do. Kitsch bicycle rights Wes Anderson street art, Thundercats ethical Brooklyn fixie yr mollit. Pinterest before they sold out Helvetica fingerstache lomo, PBR&B ad chia Neutra. Wolf Thundercats ethnic deserunt.</p>
+				<p>Seitan banh mi consectetur street art, art party labore typewriter salvia quis Cosby sweater. Leggings excepteur you probably haven't heard of them, mustache cred four loko deserunt nisi. XOXO Neutra qui vinyl irure cornhole Helvetica VHS. Asymmetrical ugh irony, voluptate bitters messenger bag quis consequat four loko aesthetic sriracha dolor. Viral tote bag blog, nihil fanny pack kogi drinking vinegar organic single-origin coffee. Nihil irure banjo blog 90's. Twee eiusmod mollit Shoreditch meh fugiat.</p>
+				<p>PBR&B plaid Portland aute, cray bicycle rights Helvetica messenger bag disrupt dolor ugh nostrud cred leggings. Labore mumblecore Thundercats lo-fi organic, readymade authentic ut synth fanny pack plaid commodo gentrify flannel distillery. Accusamus church-key High Life dolore, Godard asymmetrical viral placeat vegan ut veniam. Banksy Blue Bottle fap meggings. Tumblr whatever ex et. Dolore beard pariatur before they sold out nisi, Shoreditch art party magna shabby chic seitan. Occaecat locavore art party, mlkshk fingerstache post-ironic Terry Richardson actually dreamcatcher beard placeat pour-over.</p>
+				<p>Kale chips sartorial stumptown, you probably haven't heard of them polaroid YOLO irure ex id food truck exercitation lo-fi nostrud tempor bicycle rights. Do ullamco hashtag food truck, et enim Bushwick eu flexitarian street art beard. Chia mixtape quis, mollit keffiyeh farm-to-table organic bicycle rights lomo Brooklyn. Eiusmod ethnic pork belly Wes Anderson street art, accusamus Blue Bottle gentrify. Tote bag dolore tempor pop-up Marfa. Culpa quinoa ethical flexitarian, narwhal sriracha cupidatat blog XOXO American Apparel McSweeney's brunch farm-to-table. Tofu minim VHS mollit Tumblr +1.</p>
+			</div>
+		</div>
+	</div>
+
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+	<script src="lib/history.js"></script>
+	<script src="lib/history.adapter.jquery.js"></script>
+	<script src="jquery.swoosh.js"></script>
+	<script>
+	(function($) {
+
+		// Initializer
+		function init() {
+
+			// Initialize swoosh
+			$.swoosh();
+
+			// Hook up to when Swoosh has fetched and replaced content
+			$(document).on('swoosh/didreplace', function(e, info) {
+
+				// Get the name of the page that was fetched (provided by the
+				// data-page or attribute on your content element).
+				var loadedPage = info.pageName;
+
+				// Do stuff depending on the page
+				if ('about' == loadedPage) {
+					initAbout();
+				}
+				else {
+					initRegular();
+				}
+			});
+		}
+
+		// Do regular stuff. Perhaps re-parsing share buttons?
+		function initRegular() {
+			$('body').css('background-color', 'lightblue');
+		}
+
+		// Do something truly unique.
+		function initAbout() {
+			$('body').css('background-color', 'yellow');
+		}
+
+		// Go
+		init();
+
+	})(jQuery);
+	</script>
+</body>
+</html>
