@@ -45,7 +45,7 @@
  *
  * ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
  *
- * @version 0.1, 2014-02-21
+ * @version 0.2 (2014-02-25)
  * @author Alexander Wallin
  * @url http://alexanderwallin.com
  */
@@ -174,10 +174,7 @@ var Swoosh = function() {
 
 			// Add internal swoosh selector, if told
 			if (this.options.swooshInternalLinks) {
-				//this.flagInternalLinks();
-				//this.options.linkSelector += ', .internal-swoosh';
-
-				this.options.linkSelector += ', a[href^="' + this.options.baseUrl + '"]';
+				this.options.linkSelector += (this.options.linkSelector && this.options.linkSelector.length > 0 ? ', ' : '') + 'a[href*="' + this.options.baseUrl + '"]';
 			}
 
 			// Add loading overlay, if told
@@ -205,15 +202,6 @@ var Swoosh = function() {
 
 			// Enable chaining. One row is one row.
 			return this;
-		},
-
-
-		/**
-		 * Searches the DOM for internal links and adds a class to the,
-		 * enabling automatic swooshing.
-		 */
-		flagInternalLinks: function() {
-			$('body').find('a[href^="' + this.options.baseUrl + '"]').addClass('internal-swoosh');
 		},
 
 
@@ -376,7 +364,7 @@ var Swoosh = function() {
 			this.jqxhr = null;
 
 			// Emit that new content have been fetched
-			$(document).trigger('swoosh/didfetch', { '$newContent':$newContent, 'pageName':loadedPageName });
+			$(document).trigger('swoosh/didfetch', { '$newContent':$newContent, 'response':response, 'pageName':loadedPageName });
 			$('html').removeClass('fetching-page');
 
 			// Set document title
@@ -396,10 +384,10 @@ var Swoosh = function() {
 				else {
 				
 					// Replace content immediately
-					this.$content.html($newContent.html());
+					this.replaceContent($newContent);
 
 					// Emit that new content have been fetched
-					$(document).trigger('swoosh/didreplace', { '$newContent':$newContent, 'pageName':loadedPageName });
+					$(document).trigger('swoosh/didreplace', { '$newContent':$newContent, 'response':response, 'pageName':loadedPageName });
 				}
 			}
 		},
@@ -415,7 +403,7 @@ var Swoosh = function() {
 			if (this.switchingState.isFadedOut && this.switchingState.isContentLoaded) {
 
 				// Replace content
-				this.$content.html(this.switchingState.$newContent.html());
+				this.replaceContent(this.switchingState.$newContent);
 
 				// Continue with the animation
 				setTimeout(function() {
@@ -436,6 +424,24 @@ var Swoosh = function() {
 					this.switchingState.isContentLoaded = false;
 				}.bind(this), this.options.fadeContentDelay);
 			}
+		},
+		
+		
+		/**
+		 * Replaces the content wrap's content and attributes with the
+		 * provided corresponding content wrap's ditto.
+		 */
+		replaceContent: function($newContentWrap, $targetContentWrap) {
+			$targetContentWrap = $targetContentWrap || this.$content;
+			
+			// Replace attributes
+			$.each($newContentWrap[0].attributes, function() {
+				if (this.specified)
+					$targetContentWrap.attr(this.name, this.value);
+			});
+			
+			// Replace HTML
+			$targetContentWrap.html($newContentWrap.html());
 		},
 
 
