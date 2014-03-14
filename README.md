@@ -75,25 +75,25 @@ The plugin has many options so that you can enable and disable almost every feat
 *swoosh/click*   
 A swooshed link is clicked.
 
-*swoosh/statechange*
+*swoosh/statechange*  
 Triggered when a *statechange* event is triggered. Here you have the ability to stop Swoosh from fetching content by settings `state.data.shouldFetchContent = false;`.
 
-*swoosh/willfetch*
+*swoosh/willfetch*  
 A new page's content is about to be fetched.
 
-*swoosh/didfetch*
+*swoosh/didfetch*  
 New content was fetched.
 
-*swoosh/errorfetch*
+*swoosh/errorfetch*  
 An error occurred fetching new content.
 
-*swoosh/didreplace*
+*swoosh/didreplace*  
 Swoosh did replace the page's main content with new content.
 
-*swoosh/didfadeout*
+*swoosh/didfadeout*  
 The content wrapper did fade out.
 
-*swoosh/didfadein*
+*swoosh/didfadein*  
 The content wrapper did fade in.
 
 ## Dependencies
