@@ -45,7 +45,7 @@
  *
  * ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
  *
- * @version 0.2 (2014-02-25)
+ * @version 0.3 (2014-02-25)
  * @author Alexander Wallin
  * @url http://alexanderwallin.com
  */
@@ -237,7 +237,16 @@ var Swoosh = function() {
 		 * @param    clickEvent    The original click event
 		 */
 		handleLinkClick: function(e, info) {
-			var $link = $(info.clickEvent.target);
+
+			// We'll send along all the link's attributes, since DOM
+			// objects cannot be passed to History.pushState().
+			var $link = $(info.clickEvent.target),
+				linkAttr = {};
+
+			$.each($link[0].attributes, function() {
+				if (this.specified)
+					linkAttr[this.name] = this.value;
+			});
 
 			// Prevent event from executing its duties
 			info.clickEvent.preventDefault();
@@ -261,6 +270,7 @@ var Swoosh = function() {
 			// Push the new state
 			History.pushState(
 				{
+					'linkAttr'           : linkAttr,
 					'shouldFetchContent' : true // TODO: change to shouldFetch variable
 				},
 				tempTitle,
